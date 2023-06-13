@@ -1,73 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS
+**Sending Response :**
+```js
+//Without response injection
+@Controller('/users')
+@Post('/profile')
+// here we have injected only request and not response then we can send response of the api only by returning from the function
+getProfile(@Req req: Request){
+  return {hello:"world"}
+}
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+// With response injection
+@Controller('/users')
+@Post('/profile')
+// here we have injected Response, it means we have to use Response object to send the response of the API. If we use return statement then API reponse will not be returned
+getProfile(@Req req: Request,@Res res:Response){
+  res.json({hello:"world"})
+}
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+// With response injection and return 
+@Controller('/users')
+@Post('/profile')
+// here we have injected Response, if we have to return API response using return statement then we have to use {passthrough:true}
+getProfile(@Req req: Request,@Res({passthrough:true}) res:Response){
+   return {hello:"world"}
+}
+```
+---
+**Redirect Response** :
+- **Static Redirection:** Using **@Redirect** decorator
+```js
+@Controller('/users')
+@Post('/profile')
+@Redirect('/users/account')
+getProfile(@Req req: Request,@Res({passthrough:true}) res:Response){
+   return {hello:"world"}
+}
+```
+- **Dynamic Redirection:** Using **url** in return statement
+```js
+@Controller('/users')
+@Post('/profile')
+getProfile(@Req req: Request,@Res({passthrough:true}) res:Response){
+   return {url:/users/account,
+           statusCode: 302
+   }
+}
 ```
 
-## Running the app
+**Route Parameters**
+```js
+@Controller('/users')
+@Get('/profile/:id')
+getProfile(@Param() params){
+//here we do not pass anything in @Param then params will return an object with key as id and value as passed in API
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+      return {hello:"world"}
+}
 ```
 
-## Test
+```js
+@Controller('/users')
+@Get('/profile/:id')
+getProfile(@Param('id') params){
+//here the params will be the value of id directly and not the object
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+      return {hello:"world"}
+}
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+---
+**Headers:**
+**@Header:** To set the header
+```js
+@Controller('/users')
+@Get('/profile/:id')
+@Header('Cache-Control','none')
+getProfile(@Param('id') params){
+      return {hello:"world"}
+}
+```
+**@Headers:** To extract the headers.
+```js
+@Controller('/users')
+@Get('/profile/')
+getProfile(@Headers() headers: Record<string:any>){
+      return {hello:"world"}
+}
+```
