@@ -76,7 +76,7 @@ getProfile(@Param('id') params){
 @Get('/profile/:id')
 @Header('Cache-Control','none')
 getProfile(@Param('id') params){
-      return {hello:"world"}
+      return {hello:"worldd"}
 }
 ```
 **@Headers:** To extract the headers.
@@ -84,6 +84,6 @@ getProfile(@Param('id') params){
 @Controller('/users')
 @Get('/profile/')
 getProfile(@Headers() headers: Record<string:any>){
-      return {hello:"world"}
+      return {hello:"worldd"}
 }
 ```
