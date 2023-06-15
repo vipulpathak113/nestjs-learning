@@ -87,3 +87,36 @@ getProfile(@Headers() headers: Record<string:any>){
       return {hello:"world"}
 }
 ```
+
+**DEPENDENCY INJECTION (DI):** 
+- It uses IOC such that instead of creating the instance manually we give control to nestjs
+- To use DI first we have to register it in the module within providers.
+ ```js
+ @Module({
+      providers: [
+      { provide: "STORE", useClass: UsersStore
+      
+       }
+         ]
+      })
+```
+
+To use this anywhere within module we use **@Inject**(*except when the provide is a class itself*) with the **name given in provide**.
+
+```js
+@Controller("users")
+export class UsersController {
+  constructor(@Inject("STORE") private store: UsersStore) {
+    console.log(`[UsersController]:`, this.store.getStore());
+  }
+}
+```
+
+Here instance of UserStore is created and used in controller with the name "STORE"
+
+- We can also use **useValue** and **useFactory** for injection**
+
+- **Scope of DI:**
+  - **DEFAULT:** It means only one instance will be created
+  - **REQUEST**: It means per request of api, instance will be created. But it also has drawback as the anything which consumes the injection, the instance of that thing is also created which becomes heavy
+  - **TRANSIENT:** New dedicated instance for each consumer
