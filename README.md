@@ -120,3 +120,32 @@ Here instance of UserStore is created and used in controller with the name "STOR
   - **DEFAULT:** It means only one instance will be created
   - **REQUEST**: It means per request of api, instance will be created. But it also has drawback as the anything which consumes the injection, the instance of that thing is also created which becomes heavy
   - **TRANSIENT:** New dedicated instance for each consumer
+
+---
+**Types of Modules :** 
+- **Feature Modules:** Can be used per feature. We can do that by creating seperate folders feature wise.
+- **Shared Modules:** using exports in the module we can share classes 
+ ```js
+ @Module({
+      providers: [
+      { provide: "STORE", useClass: UsersStore
+      
+       }
+         ],
+        exports: [UserService] 
+      })
+```
+Now wherever we import this module we can inject UserService there.
+
+- **Global Modules:** By using **@Global** we can make a module global and we do not need to import the module to use there classes. But we have to import in the main module to work.
+ ```js
+ @Global()
+ @Module({
+      providers: [
+      { provide: "STORE", useClass: UsersStore
+      
+       }
+         ],
+        exports: [UserService] 
+      })
+```
