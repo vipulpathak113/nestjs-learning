@@ -149,3 +149,18 @@ Now wherever we import this module we can inject UserService there.
         exports: [UserService] 
       })
 ```
+- Router module: Provides routes to api within the module. Mention in the app module.
+ ```js
+ @Global()
+ @Module({
+      imports:[ JobModule,RouterModule.register([{path:'jobs',module:JobModule}])]
+      })
+```
+We can also use children inside it for route within route.
+ ```js
+ @Global()
+ @Module({
+      imports:[ JobModule,RouterModule.register([{path:'jobs',module:JobModule,children:[{path:'finding',module:JobFindingModule}]}])]
+      })
+      //here path becomes jobs/finding 
+```
