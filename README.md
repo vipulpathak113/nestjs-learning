@@ -149,7 +149,7 @@ Now wherever we import this module we can inject UserService there.
         exports: [UserService] 
       })
 ```
-- Router module: Provides routes to api within the module. Mention in the app module.
+- **Router module:** Provides routes to api within the module. Mention in the app module.
  ```js
  @Global()
  @Module({
