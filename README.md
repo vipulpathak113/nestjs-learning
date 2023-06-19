@@ -164,3 +164,28 @@ We can also use children inside it for route within route.
       })
       //here path becomes jobs/finding 
 ```
+**Pipe**:
+Used for two purpose: Transformation and Validation
+
+- **Transformation:**
+```js
+@Controller('/users')
+@Get('/profile/:id')
+getProfile(@Param('id', ParseIntPipe) params){
+      return {hello:"world"}
+}
+```
+Here **ParseIntPipe** is used to convert dynamic id from string to integer.
+
+```js
+@Controller('/users')
+@Get('/profile/:id')
+@UsePipes(ParseIntPipe)
+getProfile(@Param('id') params, QueryParam('category')){
+      return {hello:"world"}
+}
+```
+To use pipes for all the parameters we can use **@UsePipes** and mention the transformation that it will be applied to all inputs.
+
+- **ValidationPipe:** We can use ParseUUIDPipe, ParseArrayPipe, ParseEnumPipe, etc. It will validate the input and give error as per validation.
+
