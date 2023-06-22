@@ -189,3 +189,9 @@ To use pipes for all the parameters we can use **@UsePipes** and mention the tra
 
 - **ValidationPipe:** We can use ParseUUIDPipe, ParseArrayPipe, ParseEnumPipe, etc. It will validate the input and give error as per validation.
 
+  **Note:** If we use Global pipe then we cannot use DI of pipe options via modules.
+
+**Schema Based Validation:** (object validation)
+- Can use **joi** package (It does validation but not transformation)
+- Can use packages **class-validator** and **class-transformer** (It does validation and transformation )
+
