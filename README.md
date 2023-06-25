@@ -195,7 +195,7 @@ To use pipes for all the parameters we can use **@UsePipes** and mention the tra
 - Can use **joi** package (It does validation but not transformation)
 - Can use packages **class-validator** and **class-transformer** (It does validation and transformation )
 
-**Applcation Lifecycle**
+**Application Lifecycle**
 - Can be implemented anywhere in module,service,controller,etc
 - Destroy will be called on **app.close(**) (Closes nestjs but not nodejs)
 - To enable closing nodejs (using ctrl+c) we have to use **app.enableShutdownHooks()** to call distroy methods on any event
