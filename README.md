@@ -164,6 +164,7 @@ We can also use children inside it for route within route.
       })
       //here path becomes jobs/finding 
 ```
+---
 **Pipe**:
 Used for two purpose: Transformation and Validation
 
@@ -191,13 +192,20 @@ To use pipes for all the parameters we can use **@UsePipes** and mention the tra
 
   **Note:** If we use Global pipe then we cannot use DI of pipe options via modules.
 
+---
 **Schema Based Validation:** (object validation)
 - Can use **joi** package (It does validation but not transformation)
 - Can use packages **class-validator** and **class-transformer** (It does validation and transformation )
-
+---
 **Application Lifecycle**
 - Can be implemented anywhere in module,service,controller,etc
 - Destroy will be called on **app.close(**) (Closes nestjs but not nodejs)
 - To enable closing nodejs (using ctrl+c) we have to use **app.enableShutdownHooks()** to call distroy methods on any event
 ![applifecycle](nestjs.jpeg)
+---
+
+**Request Response Flow:**
+
+![reresflow](reqresflow.jpeg)
+
 
