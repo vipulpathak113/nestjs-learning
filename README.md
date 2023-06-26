@@ -208,4 +208,43 @@ To use pipes for all the parameters we can use **@UsePipes** and mention the tra
 
 ![reresflow](reqresflow.jpeg)
 
+**Middlewares**
+- Middleware is a function which is called before the route handler. 
+- It has params: request,response,next.
+- next() is called so then it can call next method or middleware. if we do not use next then request will be stuck.
+- To create middleware we have to implement **NestMiddleware** interface and it has method **use** to be implemented
+  ```js
+  @Injectable()
+  export class LoggerMiddleware implements NestMiddleware {
+    use(req: Request, res: Response, next: NextFunction) {
+      console.log('Request...');
+      next();
+    }
+  }
+  ``` 
+- To apply the middleware we have to implement **NestModule** in the module.ts file. It gives a **configure** method to implement.
+  ```js
+    export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+      consumer
+        .apply(LoggerMiddleware)
+        .forRoutes('cats');
+    }
+  }
+  ```
+  We can also use path and method on which the middleware will be applied.
+  ```js
+    export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+      consumer
+        .apply(LoggerMiddleware)
+        .forRoutes({ path: 'cats', method: RequestMethod.GET });
+    }
+  }
+  ```
+- We can also use global middleware in the main.ts file with **use method**. But we cannot use DI for it. For DI either use class or functional middleware.
+---
+  
+
+
 
